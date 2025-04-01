@@ -1,6 +1,5 @@
 const NEWS_API_KEY = "136141d5fa4b49ab8ee4dc060d4eef91";
-const OPENAI_API_KEY =
-  "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";
+const GEMINI_API_KEY = "AIzaSyDjjV4e0LnGFcxiznBdXIZX8vkrz-vpxwk";
 
 export const fetchNews = async (category = "general") => {
   try {
@@ -22,36 +21,50 @@ export const fetchNews = async (category = "general") => {
 
 export const fetchSummary = async (content) => {
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo", // Changed from "gpt-4" to a more widely available model
-        messages: [
-          { role: "system", content: "You summarize news articles." },
-          {
-            role: "user",
-            content: `Summarize this article in 3 sentences:\n\n${content}`,
+    // Updated endpoint using gemini-2.0-flash model from your curl example
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Summarize this news article in 3 sentences:\n\n${content}`,
+                },
+              ],
+            },
+          ],
+          // Optional configuration parameters
+          generationConfig: {
+            temperature: 0.4,
+            maxOutputTokens: 1024,
           },
-        ],
-        max_tokens: 100,
-        temperature: 0.7,
-      }),
-    });
+        }),
+      }
+    );
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error("OpenAI API Error:", errorData);
-      throw new Error(`API Error: ${errorData.error.message}`);
+      const errorData = await response.json().catch(() => ({}));
+      console.error("API error details:", errorData);
+      throw new Error(`API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    return data.choices[0].message.content.trim();
+
+    if (data.candidates && data.candidates.length > 0) {
+      return data.candidates[0].content.parts[0].text;
+    } else if (data.promptFeedback && data.promptFeedback.blockReason) {
+      throw new Error(`Content blocked: ${data.promptFeedback.blockReason}`);
+    }
+
+    throw new Error("Error generating summary");
   } catch (error) {
     console.error("Error summarizing article:", error);
-    return "Failed to generate summary.";
+    throw error;
   }
 };
