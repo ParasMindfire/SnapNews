@@ -28,68 +28,185 @@ body {
 
 /*......................NAVBAR......................*/
 
+/* Navbar Styles */
 .navbar {
-  background-color: var(--card-bg);
-  padding: 15px 0;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--nav-bg);
+  padding: 12px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.navbar-content {
+/* Container */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: var(--primary-color);
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-item {
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Toggle Button */
+.theme-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.theme-button:hover {
+  background: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+.theme-icon {
+  font-size: 18px;
+}
+
+/* Light & Dark Theme Variables */
+:root {
+  --nav-bg: #ffffff;
+  --text-color: #333;
+  --primary-color: #007bff;
+  --button-bg: #f0f0f0;
+  --button-hover-bg: #e0e0e0;
+  --button-text: #333;
+}
+
+[data-theme="dark"] {
+  --nav-bg: #222;
+  --text-color: #fff;
+  --primary-color: #ff9800;
+  --button-bg: #333;
+  --button-hover-bg: #444;
+  --button-text: #fff;
+}
+
+/*...................News Card...............*/
+
+.news-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  width: 320px;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+}
+
+.news-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-content {
+  padding: 15px;
+}
+
+.news-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.news-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.news-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.logo {
-  font-size: 24px;
+.read-more {
+  color: #007bff;
+  text-decoration: none;
   font-weight: bold;
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
+.read-more:hover {
+  text-decoration: underline;
 }
 
-.nav-links a {
-  text-decoration: none;
-  color: var(--text-color);
-  margin-right: 15px;
-  font-size: 16px;
-}
-
-.theme-button {
-  padding: 8px 12px;
-  background-color: var(--text-color);
-  color: var(--background-color);
+.bookmark-btn {
+  background: #007bff;
+  color: white;
   border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-/*...................News Card...............*/
-
-.news-image {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+  padding: 6px 12px;
+  font-size: 14px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.read-more {
-  display: block;
-  color: blue;
-  margin-top: 10px;
-  text-decoration: none;
+.bookmark-btn:hover {
+  background: #0056b3;
+}
+
+.bookmark-btn.bookmarked {
+  background: #dc3545;
+}
+
+.bookmark-btn.bookmarked:hover {
+  background: #c82333;
 }
 
 /*.................News Detail..................*/
 .news-detail {
-  max-width: 800px;
+  font-family: Arial, sans-serif;
+  max-width: 900px;
   margin: 20px auto;
   padding: 20px;
-  background: #fff;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .detail-image {
@@ -99,50 +216,72 @@ body {
 }
 
 h1 {
-  font-size: 24px;
-  margin: 15px 0;
+  font-size: 2rem;
+  margin-top: 15px;
   color: #333;
 }
 
 .author-date {
-  font-size: 14px;
-  color: #666;
+  color: #555;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.news-category,
+.news-sentiment,
+.news-bias,
+.news-headline,
+.news-keywords {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #333;
 }
 
 .news-content {
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 1.1rem;
   line-height: 1.6;
-  color: #444;
+  color: #333;
 }
 
+.button-wrapper {
+  margin-top: 10px;
+}
+
+.analyze-btn,
 .quick-read {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 15px;
-  background: #ff9800;
-  color: white;
-  text-decoration: none;
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
 }
 
-.quick-read:hover {
-  background: #e68900;
+.analyze-btn:disabled,
+.quick-read:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
+
+.analyze-btn:hover:not(:disabled),
+.quick-read:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 
 .full-article {
   display: inline-block;
-  margin-top: 15px;
-  padding: 10px 15px;
-  background: #007bff;
-  color: white;
+  margin-top: 20px;
+  color: #007bff;
+  font-weight: bold;
   text-decoration: none;
-  border-radius: 5px;
 }
 
 .full-article:hover {
-  background: #0056b3;
+  text-decoration: underline;
 }
 
 /*................Home Page.....................*/
@@ -192,4 +331,80 @@ h1 {
 
 .theme-toggle:hover {
   color: #007bff;
+}
+
+/*...................Bookmark page......................*/
+.bookmarks-page {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.empty-message {
+  font-size: 16px;
+  color: #777;
+}
+
+.bookmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
+
+.bookmark-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.bookmark-card:hover {
+  transform: translateY(-5px);
+}
+
+.news-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.bookmark-content {
+  padding: 15px;
+}
+
+.bookmark-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.bookmark-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.remove-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #c82333;
 }

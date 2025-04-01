@@ -34,7 +34,7 @@ export const fetchSummary = async (content) => {
             {
               parts: [
                 {
-                  text: `Summarize this news article in 3 sentences:\n\n${content}`,
+                  text: `Please provide a concise summary of the following news article in a small paragraph of 200 words, highlighting the key points, major events, and important details:\n\n${content}`,
                 },
               ],
             },

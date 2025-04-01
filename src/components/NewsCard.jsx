@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useBookmarks } from "../contexts/BookmarkContext";
 
 const NewsCard = ({ article, index }) => {
-  console.log("index ", index);
+  const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
+  const isBookmarked = bookmarks.some((item) => item.title === article.title);
+
   return (
-    <div className="card">
+    <div className="news-card">
       {article.urlToImage && (
         <img
           src={article.urlToImage}
@@ -11,11 +14,25 @@ const NewsCard = ({ article, index }) => {
           className="news-image"
         />
       )}
-      <h3>{article.title}</h3>
-      <p>{article.description?.slice(0, 100)}...</p>
-      <Link to={`/news/${index}`} className="read-more">
-        Read More
-      </Link>
+      <div className="news-content">
+        <h3 className="news-title">{article.title}</h3>
+        <p className="news-description">
+          {article.description?.slice(0, 120)}...
+        </p>
+        <div className="news-footer">
+          <Link to={`/news/${index}`} className="read-more">
+            Read More →
+          </Link>
+          <button
+            onClick={() =>
+              isBookmarked ? removeBookmark(article) : addBookmark(article)
+            }
+            className={`bookmark-btn ${isBookmarked ? "bookmarked" : ""}`}
+          >
+            {isBookmarked ? "❌ Remove" : "📌 Bookmark"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

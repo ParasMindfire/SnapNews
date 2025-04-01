@@ -17,12 +17,21 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container navbar-content">
-        <Link to="/" className="logo">NewsNuggets</Link>
+        <Link to="/" className="logo">
+          📰 Snap News
+        </Link>
         <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/bookmarks">Bookmarks</Link>
+          <Link to="/" className="nav-item">
+            Home
+          </Link>
+          <Link to="/bookmarks" className="nav-item">
+            Bookmarks
+          </Link>
           <button onClick={toggleTheme} className="theme-button">
-            {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+            <span className="theme-icon">
+              {theme === "light" ? "🌙" : "☀️"}
+            </span>
+            {theme === "light" ? "Dark Mode" : "Light Mode"}
           </button>
         </div>
       </div>
